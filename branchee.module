@@ -1,0 +1,10 @@
+<?php
+
+function branchee_theme() {
+  return array(
+    'block__branchee' => array(
+      'template' => 'block--branchee',
+      'base hook' => 'block',
+    )
+  );
+}
