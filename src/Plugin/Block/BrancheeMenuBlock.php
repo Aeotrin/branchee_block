@@ -59,15 +59,18 @@ class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
     $form = parent::blockForm($form, $form_state);
 
     $config = $this->getConfiguration();
+    $menus = entity_load_multiple('menu');
+    $options = array();
+    foreach ($menus as $key => $menu) {
+      $options[$menu->get('id')] = $menu->get('label');
+    }
 
     $form['branchee_menu_block_menu'] = array (
       '#type' => 'select',
       '#title' => $this->t('Select a Menu'),
       '#description' => $this->t('Select a Menu to render with Branchee'),
       '#default_value' => isset($config['menu']) ? $config['menu'] : 'main',
-      '#options' => array(
-        'main' => t('Main navigation'),
-      ),
+      '#options' => $options,
     );
 
     return $form;
