@@ -1,10 +1,12 @@
 <?php
 
 function branchee_theme() {
-  return array(
-    'block__branchee' => array(
-      'template' => 'block--branchee',
-      'base hook' => 'block',
-    )
-  );
+  return [
+    'branchee_menu_block' => [
+      'variables' => [
+        'menu' => '',
+        'branchee_theme' => '',
+      ],
+    ],
+  ];
 }
