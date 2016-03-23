@@ -1,12 +1,17 @@
 <?php
 
-function branchee_theme() {
-  return [
-    'branchee_menu_block' => [
-      'variables' => [
-        'menu' => '',
-        'branchee_theme' => '',
-      ],
+/**
+ * Implements hook_theme().
+ */
+function branchee_theme($existing, $type, $theme, $path) {
+  $theme = [];
+
+  $theme['branchee_menu_block'] = [
+    'variables' => [
+      'menu' => '',
+      'branchee_theme' => '',
     ],
   ];
+
+  return $theme;
 }

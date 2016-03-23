@@ -6,10 +6,6 @@
 function branchee_requirements($phase) {
   $requirements = array();
 
-
-
-  kint($phase);
-
   $value = t('Branchee library detected.');
 
   $url = 'https://github.com/dubbs/branchee';
