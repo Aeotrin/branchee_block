@@ -1,8 +1,7 @@
-name: Branchee
+name: Branchee Block
 description: Creates a block that renders a chosen menu in a branchee compatible wrapper
 package: Custom
 
 type: module
 core: 8.x
 
-# configure: branchee.settings

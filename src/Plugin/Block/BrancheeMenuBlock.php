@@ -13,7 +13,6 @@ namespace Drupal\branchee\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Menu\MenuLinkTree;
 use Drupal\Core\Menu\MenuTreeParameters;
 
 class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
@@ -41,18 +40,28 @@ class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
       $tree = $menu_tree->transform($tree, $manipulators);
       $tree = $menu_tree->build($tree);
 
+      branchee_block_add_menu_class($tree, 1);
+
       $theme = $config['theme'] == 'other' ? $config['theme_other'] : $config['theme'];
-      return [
+
+      $form = [
         '#theme' => 'branchee_menu_block',
         '#branchee_theme' => $theme,
         '#menu' => $tree,
         '#attached' => [
           'library' =>  [
-            'branchee/branchee',
-            'branchee/branchee-menu'
+            'branchee_block/branchee',
+            'branchee_block/branchee-menu'
+          ],
+        ],
+        '#cache' => [
+          'contexts' => [
+            'url.path', //vary on url path
           ],
         ],
       ];
+
+      return $form;
     }
   }
 
