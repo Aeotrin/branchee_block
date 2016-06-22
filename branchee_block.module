@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function branchee_block_theme($existing, $type, $theme, $path) {
+  $theme = [];
+
+  $theme['branchee_menu_block'] = [
+    'variables' => [
+      'menu' => '',
+      'second_menu' => '',
+      'branchee_theme' => '',
+    ],
+  ];
+
+  return $theme;
+}
+
+function branchee_block_add_menu_class(&$tree, $level) {
+  if (isset($tree['#items'])) {
+    $menu_items = &$tree['#items'];
+  } else {
+    $menu_items = &$tree;
+  }
+
+  foreach ($menu_items as &$menu_item) {
+    $menu_item['attributes']->addClass('branchee-level-' . $level);
+
+    $current_path = \Drupal::request()->getRequestUri();
+    if ($menu_item['url']->toString() == $current_path) {
+      // Add active link.
+      $menu_item['attributes']->addClass('active');
+    }
+    if ($menu_item['below']) {
+      addMenuClass($menu_item['below'], $level+1);
+    }
+  }
+}

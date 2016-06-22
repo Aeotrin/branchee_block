@@ -1,0 +1,44 @@
+{
+  "name": "branchee",
+  "version": "1.2.1",
+  "description": "Branchee is a lightweight mobile navigation plugin with built in transitions",
+  "main": "src/branchee.js",
+  "scripts": {
+    "postinstall": "$(npm bin)/bower install",
+    "min-js": "$(npm bin)/uglifyjs --compress --mangle --output dist/branchee.min.js -- src/js/branchee.js",
+    "min-css": "$(npm bin)/node-sass --output-style compressed src/scss/branchee.scss --output dist && cp -a dist/branchee.css dist/branchee.min.css",
+    "watch-scss": "$(npm bin)/node-sass --recursive --watch --output-style expanded src/scss/branchee.scss --output src/scss",
+    "add-files": "git add .",
+    "server": "python -m SimpleHTTPServer 8000"
+  },
+  "pre-commit": [
+    "min-js",
+    "min-css",
+    "add-files"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dubbs/branchee.git"
+  },
+  "keywords": [
+    "jquery",
+    "mobile",
+    "menu",
+    "plugin",
+    "transitions"
+  ],
+  "author": "Kevin Warrington <kevin.warrington@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dubbs/branchee/issues"
+  },
+  "homepage": "https://github.com/dubbs/branchee",
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "gulp": "^3.8.11",
+    "jquery": "^2.1.4",
+    "node-sass": "^3.1.2",
+    "pre-commit": "^1.0.7",
+    "uglify-js": "^2.4.23"
+  }
+}
