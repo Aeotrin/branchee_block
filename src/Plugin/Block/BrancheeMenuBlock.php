@@ -79,7 +79,7 @@ class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
     $config = $this->getConfiguration();
     $menus = entity_load_multiple('menu');
     $menu_options = [];
-    foreach ($menus as $key => $menu) {
+    foreach ($menus as $menu) {
       $menu_options[$menu->get('id')] = $menu->get('label');
     }
 
