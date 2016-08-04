@@ -50,7 +50,6 @@ class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
         '#menu' => $tree,
         '#attached' => [
           'library' =>  [
-            'branchee_block/branchee',
             'branchee_block/branchee-menu'
           ],
         ],
