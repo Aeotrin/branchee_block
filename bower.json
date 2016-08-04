@@ -2,6 +2,6 @@
   "name": "branchee",
   "version": "1.0.0",
   "dependencies": {
-    "branchee": "~1.2.1"
+    "branchee": "~1.2.2"
   }
 }
