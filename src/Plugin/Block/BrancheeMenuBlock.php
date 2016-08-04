@@ -23,12 +23,15 @@ class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
   public function build() {
     $config = $this->getConfiguration();
 
+    // If no menu was selected, don't try to render one.
     if (!empty($config['menu'])) {
       $menu = $config['menu'];
 
+      // Build a default set of menuTreeParameters
       $parameters = new MenuTreeParameters();
       $parameters->onlyEnabledLinks();
 
+      // Load the menu tree using the parameters defined
       $menu_tree = \Drupal::menuTree();
       $tree = $menu_tree->load($menu, $parameters);
 
@@ -37,13 +40,16 @@ class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
         array('callable' => 'menu.default_tree_manipulators:generateIndexAndSort'),
       );
 
+      // Build the menu tree taking into account access and sorting
       $tree = $menu_tree->transform($tree, $manipulators);
       $tree = $menu_tree->build($tree);
 
+      // Add menu level classes to the tree
       branchee_block_add_menu_class($tree, 1);
 
       $theme = $config['theme'] == 'other' ? $config['theme_other'] : $config['theme'];
 
+      // Construct the Branchee_block render array
       $form = [
         '#theme' => 'branchee_menu_block',
         '#branchee_theme' => $theme,
@@ -83,6 +89,7 @@ class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
       '#description' => $this->t('Select a Menu to render with Branchee'),
       '#default_value' => isset($config['menu']) ? $config['menu'] : 'main',
       '#options' => $menu_options,
+      '#required' => TRUE,
     ];
 
     $theme_options = [
@@ -100,6 +107,7 @@ class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
       '#description' => $this->t('Select a Theme for the branchee menu, or a custom class to apply to it.'),
       '#default_value' => isset($config['theme']) ? $config['theme'] : 'base',
       '#options' => $theme_options,
+      '#required' => TRUE,
     ];
 
     $form['branchee_menu_block_theme_other'] = [
