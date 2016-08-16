@@ -9,9 +9,11 @@ A default version of the Branchee library is provided in the module, but can be 
 ## How to Use
 
 * Go to `/admin/structure/block` and click **Place Block** in the region you want the mobile menu to appear in.
+* Click **Place Block** on the Branchee Menu Block.
 * Choose the Menu you would like to display.
 * Choose a built in theme, or select **Other** and enter a class name that will be used as a prefix so you can style the menu yourself.
 * Click **Save Block**
+* Click **Save Blocks**
 
 ## How to Update/Override Library
 

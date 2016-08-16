@@ -1,5 +1,22 @@
 <?php
 /**
+ * @file
+ * Contains Drupal\branchee_block\Plugin\Block\BrancheeMenuBlock.
+ */
+
+namespace Drupal\branchee_block\Plugin\Block;
+
+use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Block\BlockPluginInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\Core\Menu\MenuLinkTreeInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+
+
+/**
  * Provides a 'Branchee Menu' Block
  *
  * @Block(
@@ -7,15 +24,31 @@
  *   admin_label = @Translation("Branchee Menu Block"),
  * )
  */
+class BrancheeMenuBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
-namespace Drupal\branchee\Plugin\Block;
+  /**
+   * The menu link tree service.
+   *
+   * @var MenuLinkTreeInterface
+   */
+  protected $menuLinkTree;
 
-use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Block\BlockPluginInterface;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Menu\MenuTreeParameters;
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, MenuLinkTreeInterface $menu_link_tree) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->menuLinkTree = $menu_link_tree;
+  }
 
-class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('menu.link_tree')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -35,10 +68,10 @@ class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
       $menu_tree = \Drupal::menuTree();
       $tree = $menu_tree->load($menu, $parameters);
 
-      $manipulators = array(
-        array('callable' => 'menu.default_tree_manipulators:checkAccess'),
-        array('callable' => 'menu.default_tree_manipulators:generateIndexAndSort'),
-      );
+      $manipulators = [
+        [ 'callable' => 'menu.default_tree_manipulators:checkAccess' ],
+        [ 'callable' => 'menu.default_tree_manipulators:generateIndexAndSort' ],
+      ];
 
       // Build the menu tree taking into account access and sorting
       $tree = $menu_tree->transform($tree, $manipulators);
@@ -68,6 +101,7 @@ class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
 
       return $form;
     }
+    return [];
   }
 
   /**
@@ -77,7 +111,10 @@ class BrancheeMenuBlock extends BlockBase implements BlockPluginInterface {
     $form = parent::blockForm($form, $form_state);
 
     $config = $this->getConfiguration();
-    $menus = entity_load_multiple('menu');
+
+    $entity_manager = \Drupal::entityTypeManager();
+    $menus = $entity_manager->getStorage('menu')->loadMultiple();
+
     $menu_options = [];
     foreach ($menus as $menu) {
       $menu_options[$menu->get('id')] = $menu->get('label');

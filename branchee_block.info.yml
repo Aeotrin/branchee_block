@@ -1,6 +1,6 @@
-name: Branchee Block
+name: Branchee Menu Block
 description: Creates a block that renders a chosen menu in a branchee compatible wrapper
-package: Custom
+package: User Interface
 
 type: module
 core: 8.x

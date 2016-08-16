@@ -1,5 +1,5 @@
 branchee:
-  version: 1.2.1
+  version: 1.2.2
   js:
     libraries/branchee/dist/branchee.min.js: {}
   css:
@@ -9,10 +9,10 @@ branchee:
     - core/jquery
 
 branchee-menu:
-  version: 1.2.1
+  version: 1.2.2
   js:
     js/branchee-menu.js: {}
   dependencies:
-    - branchee/branchee
+    - branchee_block/branchee
     - core/jquery
     - core/drupal
